@@ -1,0 +1,94 @@
+package pack;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+public class Calc implements ActionListener{
+
+	JButton b[]= new JButton[16];
+	JButton pow;
+	JTextField tf;
+	String str[]={"1","2","3","4","5","6","7","8","9","0","+","-","/","*",".","="};
+	String digit="";
+	Double digit1;
+	Double digit2;
+	 Calc()
+	 {
+		 JFrame.setDefaultLookAndFeelDecorated(true);
+			//frame
+			JFrame f = new JFrame("Calculator");
+			JPanel p= new JPanel();
+			//Label
+			p.setLayout(null);
+			tf= new JTextField(20);
+			tf.setEditable(false);
+			tf.setBounds(40,90,300,20);
+			pow= new JButton("Power");
+			pow.addActionListener(this);
+			pow.setBounds(40,120,80,20);
+			p.add(tf);p.add(pow);
+			int x=40,y=150,l=80,h=20;
+			for(int i=0;i<str.length;i++)
+			{
+				b[i]= new JButton(str[i]);
+				b[i].addActionListener(this);
+				if(i%4==0)
+				{
+					x=40;
+					y=y+h+10;
+				}
+				b[i].setBounds(x,y,l,h);
+				b[i].setToolTipText(str[i]);
+				b[i].setEnabled(false);
+				
+				x=x+l+10;
+				
+				p.add(b[i]);
+			
+			}
+	 	
+			f.add(p);
+			f.setSize(450,500);
+			f.setLocation(200,100);
+			f.setVisible(true);
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	 }
+	 public void actionPerformed(ActionEvent ae)
+	 {
+		 for(int i=0;i<10;i++){
+			 if(ae.getSource()==b[i]){
+				 digit = digit+String.valueOf((i+1)%10);
+				 tf.setText(digit);
+				 break;
+			 }
+		 }
+		 if(ae.getSource()==b[13]){
+			 digit = tf.getText();
+			 digit1 = Double.parseDouble(digit);
+			 tf.setText("");
+			 digit="";
+		 }
+		 if(ae.getSource()==b[15]){
+			 digit2 = Double.parseDouble(digit);
+			 double result = digit1*digit2;
+			 tf.setText(String.valueOf(result));
+		 }
+		 if(ae.getSource()==pow)
+		 {
+			 pow.setText("Off");
+			 for(int i=0;i<16;i++)
+			 {
+				 b[i].setEnabled(true);
+			 }
+			 tf.setEditable(true);
+			 //tf.setBackground(Color.BLACK);
+			 //tf.setForeground(Color.white);
+			 tf.setHorizontalAlignment(JTextField.RIGHT);
+		 }
+	 }
+	
+	public static void main(String[] args) {
+		new Calc();
+
+	}
+
+}
